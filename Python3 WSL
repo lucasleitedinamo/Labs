@@ -1,0 +1,5 @@
+#instal all necessary tools and labs using WSL python3
+sudo apt install python3 python3-pip -y
+sudo apt install python3 python3-pip -y
+sudo apt install openssl -y
+pip install requests
