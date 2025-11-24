@@ -1,0 +1,15 @@
+lucas@IDNSPO000029:/mnt/c/Users/Lucas/lab-mtls$ python3 server.py
+Servidor HTTP comum iniciado em https://localhost:8080
+Servidor HTTPS/mTLS em execução em https://localhost:8080 (Aguardando cliente...)
+127.0.0.1 - - [24/Nov/2025 12:05:33] "GET / HTTP/1.1" 200 -
+
+lucas@IDNSPO000029:/mnt/c/Users/Lucas$ cd lab-mtls
+lucas@IDNSPO000029:/mnt/c/Users/Lucas/lab-mtls$ python3 client.py
+Tentando conectar a https://localhost:8080/ com certificado cliente...
+--- Resposta do Servidor ---
+Status Code: 200
+<h1>ConexÃ£o mTLS bem-sucedida!</h1><p>O servidor validou o certificado do cliente.</p>
+----------------------------
+
+✅ SUCESSO! O Handshake mTLS foi concluído. O servidor VALIDOU o certificado do cliente.
+lucas@IDNSPO000029:/mnt/c/Users/Lucas/lab-mtls$
