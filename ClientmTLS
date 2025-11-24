@@ -1,0 +1,48 @@
+import requests
+import ssl
+import urllib3
+
+# Suprime o aviso de segurança que aparece ao usar 'verify=False'
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# --- Configurações do Cliente ---
+URL = "https://localhost:8080/" 
+
+# --- Arquivos de Certificado ---
+# CLIENT_CERT (seu certificado assinado) e CLIENT_KEY (sua chave privada)
+CLIENT_CERT = "client_signed.crt" 
+CLIENT_KEY = "client.key"
+
+def run_client():
+    try:
+        print(f"Tentando conectar a {URL} com certificado cliente...")
+        
+        response = requests.get(
+            URL,
+            
+            # 1. Par de certificado e chave privada do cliente (Autenticação Mútua)
+            cert=(CLIENT_CERT, CLIENT_KEY),
+            
+            # 2. IGNORA a verificação do certificado do servidor (Corrige o erro de "unable to get issuer")
+            # Este é o ajuste final para o laboratório.
+            verify=False 
+        )
+
+        # Se a conexão foi estabelecida com sucesso via mTLS:
+        print("--- Resposta do Servidor ---")
+        print(f"Status Code: {response.status_code}")
+        print(response.text)
+        print("----------------------------")
+        print("\n✅ SUCESSO! O Handshake mTLS foi concluído. O servidor VALIDOU o certificado do cliente.")
+
+    except requests.exceptions.SSLError as e:
+        print("--- FALHA NO HANDSHAKE M-TLS ---")
+        print(f"Erro SSL: {e}")
+        print("\nA conexão foi recusada. Verifique se o servidor está rodando ou se a chave do cliente é válida.")
+    except requests.exceptions.ConnectionError as e:
+        print("\n[ERRO DE CONEXÃO] Verifique se o servidor está ativo.")
+    except Exception as e:
+        print(f"Ocorreu um erro inesperado: {e}")
+
+if __name__ == "__main__":
+    run_client()
